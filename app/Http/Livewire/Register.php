@@ -16,7 +16,7 @@ class Register extends Component
     protected $listeners = ['WebAuthnError'];
     public $WebAuthnErrorMessage = '';
 
-    public
+    public $FingerprintIsCaptured = false;
     public function WebAuthnError ($message) {
         $this->WebAuthnErrorMessage = $message;
     }
