@@ -1,6 +1,17 @@
 <div>
     <div class="col-md-6 offset-md-3">
         <h2 class="text-center mb-4">Register Account</h2>
+        @if ($WebAuthnErrorMessage){
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Hey !</strong> {{ $WebAuthnErrorMessage }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+        }
+
+        @endif
+
         <form wire:submit.prevent="submit">
             <div class="mb-3">
                 <label for="email" class="form-label">Username</label>
