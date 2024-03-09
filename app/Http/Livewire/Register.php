@@ -13,13 +13,19 @@ class Register extends Component
 
     public $fingerprint_data;
 
-    protected $listeners = ['WebAuthnError'];
+    protected $listeners = ['WebAuthnError','IsFingerprintCaptured'];
     public $WebAuthnErrorMessage = '';
 
     public $FingerprintIsCaptured = false;
 
+
+
     public function WebAuthnError ($message) {
         $this->WebAuthnErrorMessage = $message;
+    }
+
+    public function IsFingerPrintCaptured ($bool){
+        $this->FingerprintIsCaptured = $bool;
     }
 
     protected $rules = [
