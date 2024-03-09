@@ -16,16 +16,25 @@
             <div class="mb-3">
                 <label for="email" class="form-label">Username</label>
                 <input type="text" class="form-control"  wire:model="username" id="username" name="username" required placeholder="Username">
+                @error('username') <span>{{ $message }}</span> @enderror
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" wire:model="email" id="email" name="email" required placeholder="Email">
+                @error('email') <span>{{ $message }}</span> @enderror
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" id="password" wire:model="password" name="password" required>
+                @error('password') <span>{{ $message }}</span> @enderror
             </div>
+                @if ($FingerprintIsCaptured)
 
+                @else
+                <div class="alert alert-info" role="alert">
+                    Please cooperate in capturing your biometric data to improve security and streamline authentication. This ensures smoother access to our platform.
+                  </div>
+                @endif
             <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="remember" name="remember">
                 <label class="form-check-label" for="remember">Remember me</label>
@@ -44,13 +53,13 @@
 
     <script>
         window.onload = function(){
-           if (!navigator.credentials) {
-                   Livewire.emit('WebAuthnError','Your web browser doesnt support WebAuthn')
-               }else {
-                console.log("yes")
-                   Livewire.emit('WebAuthnError','Your web browser supports WebAuthn')
-               }
-       }
+    //        if (!navigator.credentials) {
+    //                Livewire.emit('WebAuthnError','Your web browser doesnt support WebAuthn')
+    //            }else {
+    //             console.log("yes")
+    //                Livewire.emit('WebAuthnError','Your web browser supports WebAuthn')
+    //            }
+    //    }
    </script>
     <script>
 
