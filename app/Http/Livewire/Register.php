@@ -14,6 +14,10 @@ class Register extends Component
     public $fingerprint_data;
 
     protected $listener = ['WebAuthnError'];
+    public $WebAuthnErrorMessage = '';
+    public function captureWebAuthnError ($message) {
+        $this->WebAuthnErrorMessage = $message;
+    }
     public function render()
     {
         return view('livewire.register');
