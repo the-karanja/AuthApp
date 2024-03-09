@@ -13,9 +13,11 @@ class Register extends Component
 
     public $fingerprint_data;
 
-    protected $listener = ['WebAuthnError'];
+    protected $listeners = ['WebAuthnError'];
     public $WebAuthnErrorMessage = '';
-    public function captureWebAuthnError ($message) {
+
+    public
+    public function WebAuthnError ($message) {
         $this->WebAuthnErrorMessage = $message;
     }
     public function render()
