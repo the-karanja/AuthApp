@@ -27,6 +27,10 @@ class Register extends Component
         'email' => 'required|email|unique:users',
         'password' => 'required|min:6',
     ];
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
     public function render()
     {
         return view('livewire.register');
