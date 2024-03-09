@@ -1,14 +1,14 @@
 <div>
     <div class="col-md-6 offset-md-3">
         <h2 class="text-center mb-4">Register Account</h2>
-        @if ($WebAuthnErrorMessage){
+        @if ($WebAuthnErrorMessage)
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 <strong>Hey !</strong> {{ $WebAuthnErrorMessage }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-        }
+
 
         @endif
 
@@ -30,11 +30,28 @@
                 <input type="checkbox" class="form-check-input" id="remember" name="remember">
                 <label class="form-check-label" for="remember">Remember me</label>
             </div>
-            {{-- <button type="submit" onclick="captureFingerPrint()" class="btn btn-primary btn-bg">Capture Fingerprint</button> --}}
-        <br>
+
+    @if ($FingerprintIsCaptured)
             <button type="submit" class="btn btn-primary">Register</button>
+            @else
+                 <button type="submit" onclick="captureFingerPrint()" class="btn btn-primary btn-bg">Capture Fingerprint</button>
+            @endif
+
+        <br>
+
         </form>
     </div>
+
+    <script>
+        window.onload = function(){
+           if (!navigator.credentials) {
+                   Livewire.emit('WebAuthnError','Your web browser doesnt support WebAuthn')
+               }else {
+                console.log("yes")
+                   Livewire.emit('WebAuthnError','Your web browser supports WebAuthn')
+               }
+       }
+   </script>
     <script>
 
         //i generate a random string from my local server
@@ -84,13 +101,14 @@
 
             async function  captureFingerPrint(){
                 if (!navigator.credentials) {
-            console.error('WebAuthn is not supported in this browser');
-        }else {
-            const credential = await navigator.credentials.create({
-                publicKey: publicKeyCredentialCreationOptions
-            });
-            console.log(credential)
-        }
+                    Livewire.emit('WebAuthnErrorMessage','Your web browser doesnt support WebAuthn')
+                }else {
+                    Livewire.emit('WebAuthnErrorMessage','Your web browser supports WebAuthn')
+                const credential = await navigator.credentials.create({
+                    publicKey: publicKeyCredentialCreationOptions
+                });
+                console.log(credential)
+            }
             }
         </script>
 </div>
