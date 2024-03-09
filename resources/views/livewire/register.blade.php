@@ -16,20 +16,22 @@
             <div class="mb-3">
                 <label for="email" class="form-label">Username</label>
                 <input type="text" class="form-control"  wire:model="username" id="username" name="username" required placeholder="Username">
-                @error('username') <span>{{ $message }}</span> @enderror
+                @error('username') <span style="color: red">{{ $message }}</span> @enderror
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" wire:model="email" id="email" name="email" required placeholder="Email">
-                @error('email') <span>{{ $message }}</span> @enderror
+                @error('email') <span style="color: red">{{ $message }}</span> @enderror
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" id="password" wire:model="password" name="password" required>
-                @error('password') <span>{{ $message }}</span> @enderror
+                @error('password') <span style="color: red">{{ $message }}</span> @enderror
             </div>
                 @if ($FingerprintIsCaptured)
-
+                <div class="alert alert-info" role="alert">
+                    Your Biometric data has been captured successfully
+                  </div>
                 @else
                 <div class="alert alert-info" role="alert">
                     Please cooperate in capturing your biometric data to improve security and streamline authentication. This ensures smoother access to our platform.
