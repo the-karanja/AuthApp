@@ -1,18 +1,18 @@
 <div>
     <div class="col-md-6 offset-md-3">
         <h2 class="text-center mb-4">Register Account</h2>
-        <form>
+        <form wire:submit.prevent="submit">
             <div class="mb-3">
                 <label for="email" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" required placeholder="Username">
+                <input type="text" class="form-control"  wire:model="username" id="username" name="username" required placeholder="Username">
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required placeholder="Email">
+                <input type="email" class="form-control" wire:model="email" id="email" name="email" required placeholder="Email">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <input type="password" class="form-control" id="password" wire:model="password" name="password" required>
             </div>
 
             <div class="mb-3 form-check">
