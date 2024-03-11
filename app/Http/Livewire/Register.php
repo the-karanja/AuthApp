@@ -13,7 +13,8 @@ class Register extends Component
 
     public $fingerprint_data;
 
-    protected $listeners = ['WebAuthnError','IsFingerprintCaptured'];
+    public $isValid = false;
+    protected $listeners = ['WebAuthnError','IsFingerPrintCaptured'];
     public $WebAuthnErrorMessage = '';
 
     public $FingerprintIsCaptured = false;
@@ -36,6 +37,16 @@ class Register extends Component
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
+        $this->isValid = $this->isValid();
+    }
+
+    public function isValid()
+    {
+        // Check if all required fields are valid based on the validation rules
+
+
+        // If validation passes, return true
+        return $this->validate();
     }
     public function render()
     {

@@ -42,30 +42,29 @@
                 <label class="form-check-label" for="remember">Remember me</label>
             </div>
 
-    @if ($FingerprintIsCaptured)
-            <button type="submit" class="btn btn-primary">Register</button>
+            @if ($FingerprintIsCaptured)
+            <button type="submit" class="btn btn-primary">Complete Registration</button>
             @else
-                 <button type="submit" onclick="captureFingerPrint()" class="btn btn-primary btn-bg">Capture Fingerprint</button>
+            <button  @if (!$isValid) disabled @endif onclick="captureFingerPrint()" class="btn btn-primary btn-bg">
+                @if ($isValid)
+                    Capture Fingerprint
+                @else
+                    Fill in the Fields to capture your fingerprint
+                @endif
+            </button>
             @endif
+
 
         <br>
 
         </form>
     </div>
 
-    <script>
-        window.onload = function(){
-    //        if (!navigator.credentials) {
-    //                Livewire.emit('WebAuthnError','Your web browser doesnt support WebAuthn')
-    //            }else {
-    //             console.log("yes")
-    //                Livewire.emit('WebAuthnError','Your web browser supports WebAuthn')
-    //            }
-    //    }
-   </script>
+
     <script>
 
-        //i generate a random string from my local server
+
+        //  i generated a random string from my local server
         // Function to generate a random string
             function generateRandomString(length) {
                 const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -96,8 +95,8 @@
                     id: Uint8Array.from(
                         "UZSL85T9AFC", c => c.charCodeAt(0)), // User ID
                     name: "brian", // Username
-                    displayName: "Brian", // Display Name
-                    email: "bcaranja@gmail.com" // Email
+                    displayName:  document.getElementById('username').value, // Display Name
+                    email:  document.getElementById('email').value // Email
                 },
                 pubKeyCredParams: [
             { alg: -7, type: "public-key" }, // ES256
@@ -118,8 +117,25 @@
                 const credential = await navigator.credentials.create({
                     publicKey: publicKeyCredentialCreationOptions
                 });
+                Livewire.emit('IsFingerPrintCaptured',true)
                 console.log(credential)
             }
             }
+            const publicKeyCredentialRequestOptions = {
+            challenge: Uint8Array.from(
+                randomStringFromServer, c => c.charCodeAt(0)),
+            allowCredentials: [{
+                id: Uint8Array.from(
+                    credentialId, c => c.charCodeAt(0)),
+                type: 'public-key',
+                transports: ['usb', 'ble', 'nfc'],
+            }],
+            timeout: 60000,
+        }
+        async function  captureFingerPrints(){
+            const assertion = await navigator.credentials.get({
+            publicKey: publicKeyCredentialRequestOptions
+        });
+        }
         </script>
 </div>
