@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class Authenticator extends Controller
@@ -17,4 +18,10 @@ class Authenticator extends Controller
         return view('register');
     }
 
+    public function GetCredentialId (Request $request){
+        $email = $request->input('email');
+        $user = User::where('email', $email)->first();
+        $credentialId = $user->credential_id;
+        return response()->json(['credential_id' => $credentialId]);
+    }
 }

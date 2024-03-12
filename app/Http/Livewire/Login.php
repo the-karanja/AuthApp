@@ -32,7 +32,7 @@ class Login extends Component
     }
     public function get_credential() {
         $user = User::where('email', $this->email)->first();
-        dd($user->credential_id);
+        $this->credential_id = $user->credential_id;
     }
     public function render()
     {
