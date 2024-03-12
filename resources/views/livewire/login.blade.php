@@ -1,14 +1,14 @@
 <div>
     <div class="col-md-6 offset-md-3">
         <h2 class="text-center mb-4">Login</h2>
-        <form>
+        <form wire:submit.prevent="submit">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" wire:model="email" class="form-control" id="email" name="email" required>
             </div>
             <div class="mb-3">
-                <label for="password" wire:model="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <label for="password"  class="form-label">Password</label>
+                <input wire:model="password" type="password" class="form-control" id="password" name="password" required>
             </div>
             <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="remember" name="remember">
@@ -17,10 +17,10 @@
             <button type="submit" class="btn btn-primary">Login with Password</button></br>
 
         </form>
-        <button type="submit" onclick="LoginWithFingerPrint()" style="margin-top: 10px" class="btn btn-primary">Login with FingerPrint Prompt</button>
+        {{-- <button type="submit" onclick="LoginWithFingerPrint()" style="margin-top: 10px" class="btn btn-primary">Login with FingerPrint Prompt</button> --}}
         <p><a href="/register">Create Account</a></p>
     </div>
-    <script>
+    {{-- <script>
         function generateRandomString(length) {
                 const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
                 let randomString = '';
@@ -72,6 +72,6 @@
             // Your logic to handle the assertion goes here
             console.log('Assertion:', assertion);
         }
-    </script>
+    </script> --}}
 
 </div>
