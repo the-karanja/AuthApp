@@ -17,6 +17,61 @@
             <button type="submit" class="btn btn-primary">Login with Password</button></br>
 
         </form>
-        <button type="submit" style="margin-top: 10px" class="btn btn-primary">Login with FingerPrint Prompt</button>
+        <button type="submit" onclick="LoginWithFingerPrint()" style="margin-top: 10px" class="btn btn-primary">Login with FingerPrint Prompt</button>
+        <p><a href="/register">Create Account</a></p>
     </div>
+    <script>
+        function generateRandomString(length) {
+                const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let randomString = '';
+
+                // Generate an array to hold the random values
+                const values = new Uint32Array(length);
+
+                // Fill the array with cryptographically secure random values
+                window.crypto.getRandomValues(values);
+
+                for (let i = 0; i < length; i++) {
+                    // Use the random values to get characters from the charset
+                    randomString += charset[values[i] % charset.length];
+                }
+
+                return randomString;
+            }
+            let randomStringFromServer = generateRandomString(30);
+        // Define publicKeyCredentialRequestOptions
+        const publicKeyCredentialRequestOptions = {
+            challenge: Uint8Array.from(
+                randomStringFromServer, c => c.charCodeAt(0)),
+            allowCredentials: [{
+                id: Uint8Array.from(
+                    credentialId, c => c.charCodeAt(0)),
+                type: 'public-key',
+                transports: ['usb', 'ble', 'nfc'],
+            }],
+            timeout: 60000,
+        };
+
+        // Define your LoginWithFingerPrint function
+        async function LoginWithFingerPrint() {
+            try {
+                // Attempt to get the assertion
+                const assertion = await navigator.credentials.get({
+                    publicKey: publicKeyCredentialRequestOptions
+                });
+
+                // Handle the assertion
+                handleAssertion(assertion);
+            } catch (error) {
+                console.error('Error during login:', error);
+            }
+        }
+
+        // Define a function to handle the assertion
+        function handleAssertion(assertion) {
+            // Your logic to handle the assertion goes here
+            console.log('Assertion:', assertion);
+        }
+    </script>
+
 </div>

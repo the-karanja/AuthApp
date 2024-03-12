@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use Illuminate\Http\Client\Request;
 use Livewire\Component;
-
+use App\Models\User;
 class Register extends Component
 {
     public $username;
@@ -14,17 +14,20 @@ class Register extends Component
     public $fingerprint_data;
 
     public $isValid = false;
-    protected $listeners = ['WebAuthnError','IsFingerPrintCaptured'];
-    public $WebAuthnErrorMessage = '';
+    protected $listeners = ['WebAuthnSuccess','IsFingerPrintCaptured','FingerPrintData'];
+    public $WebAuthnSuccessMessage = '';
 
     public $FingerprintIsCaptured = false;
 
 
 
-    public function WebAuthnError ($message) {
-        $this->WebAuthnErrorMessage = $message;
+    public function WebAuthnSuccess ($message) {
+        $this->WebAuthnSuccessMessage = $message;
     }
 
+    public function FingerPrintData ($data){
+        $this->fingerprint_data = $data;
+    }
     public function IsFingerPrintCaptured ($bool){
         $this->FingerprintIsCaptured = $bool;
     }
@@ -55,6 +58,14 @@ class Register extends Component
 
     public function submit()
     {
-        dd($this->username);
+
+        $user = new User();
+        $user->username = $this->username;
+        $user->email = $this->email;
+        $user->password = bcrypt($this->password);
+        $user->credential_id = $this->fingerprint_data;
+        $user->save();
+
+        // return
     }
 }

@@ -1,9 +1,9 @@
 <div>
     <div class="col-md-6 offset-md-3">
         <h2 class="text-center mb-4">Register Account</h2>
-        @if ($WebAuthnErrorMessage)
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <strong>Hey !</strong> {{ $WebAuthnErrorMessage }}
+        @if ($WebAuthnSuccessMessage)
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Hey !</strong> {{ $WebAuthnSuccessMessage }} <a href="/login">click here to login</a>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -45,13 +45,14 @@
             @if ($FingerprintIsCaptured)
             <button type="submit" class="btn btn-primary">Complete Registration</button>
             @else
-            <button  @if (!$isValid) disabled @endif onclick="captureFingerPrint()" class="btn btn-primary btn-bg">
+            <button type="button" onclick="captureFingerPrint()"  class="btn btn-primary">Capture Fingerprint</button>
+            {{-- <button  @if (!$isValid) disabled @endif onclick="captureFingerPrint()" class="btn btn-primary btn-bg">
                 @if ($isValid)
                     Capture Fingerprint
                 @else
                     Fill in the Fields to capture your fingerprint
                 @endif
-            </button>
+            </button> --}}
             @endif
 
 
@@ -118,24 +119,18 @@
                     publicKey: publicKeyCredentialCreationOptions
                 });
                 Livewire.emit('IsFingerPrintCaptured',true)
-                console.log(credential)
+                const arrayBuffer = credential.rawId
+
+                // convert array buffer to a Uint8Array
+                const uint8Array = new Uint8Array(arrayBuffer);
+
+                // Encode the Uint8Array to Base64
+                const base64String = btoa(String.fromCharCode.apply(null, uint8Array));
+                console.log(base64String);
+                Livewire.emit('FingerPrintData',base64String)
+                Livewire.emit('WebAuthnSuccess','Your Account Has been Successfully created')
             }
-            }
-            const publicKeyCredentialRequestOptions = {
-            challenge: Uint8Array.from(
-                randomStringFromServer, c => c.charCodeAt(0)),
-            allowCredentials: [{
-                id: Uint8Array.from(
-                    credentialId, c => c.charCodeAt(0)),
-                type: 'public-key',
-                transports: ['usb', 'ble', 'nfc'],
-            }],
-            timeout: 60000,
-        }
-        async function  captureFingerPrints(){
-            const assertion = await navigator.credentials.get({
-            publicKey: publicKeyCredentialRequestOptions
-        });
+
         }
         </script>
 </div>

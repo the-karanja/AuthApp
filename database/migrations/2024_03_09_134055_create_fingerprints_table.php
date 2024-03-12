@@ -16,7 +16,7 @@ class CreateFingerprintsTable extends Migration
         Schema::create('fingerprints', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained(); // Assuming you associate fingerprints with users
-            $table->string('credential_id');
+            $table->binary('credential_id');
             $table->timestamps();
         });
     }
