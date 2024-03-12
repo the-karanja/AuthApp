@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('auth');
 
 Route::get('/login',[Authenticator::class, 'LoginIndex']);
 Route::get('/register',[Authenticator::class, 'RegisterIndex']);
