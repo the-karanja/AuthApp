@@ -30,6 +30,10 @@ class Login extends Component
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
+    public function get_credential() {
+        $user = User::where('email', $this->email)->first();
+        dd($user->credential_id);
+    }
     public function render()
     {
         return view('livewire.login');
