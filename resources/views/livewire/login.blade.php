@@ -19,7 +19,7 @@
 
         </form>
 
-        <button type="button" wire:click="get_credential" onclick="LoginWithFingerprint()" style="margin-top: 10px" class="btn btn-primary">Login with FingerPrint Prompt</button>
+        <button type="button" wire:click="get_credential" onclick="LoginWithFinger()" style="margin-top: 10px" class="btn btn-primary">Login with FingerPrint Prompt</button>
 
 
         <p><a href="/register">Create Account</a></p>
@@ -61,30 +61,32 @@
     return challenge;
 }
 
-// Example usage:
-const challenge = generateChallenge();
-const credentialId = "AXpwfs9+qn9QMOUPGY91LjTHIzl2NpyTnaO/SJLLO3el3mFk4aZitQAZvd4LU+HrW2B/LX3viLaX3DI+Df1mWrQ=";
-       // Define publicKeyCredentialRequestOptions
-        // Create PublicKeyCredentialRequestOptions
-        const publicKeyCredentialRequestOptions = {
-            challenge: Uint8Array.from(challenge, c => c.charCodeAt(0)),
-            allowCredentials: [{
-                type: 'public-key',
-                id: Uint8Array.from(atob(credentialId), c => c.charCodeAt(0))
-            }],
-            timeout: 60000, // Optional timeout
-            // Other optional parameters can be added as needed
-};
+        // Example usage:
+        const challenge = generateChallenge();
+        const credentialId = "AXpwfs9+qn9QMOUPGY91LjTHIzl2NpyTnaO/SJLLO3el3mFk4aZitQAZvd4LU+HrW2B/LX3viLaX3DI+Df1mWrQ=";
+
+                const publicKeyCredentialRequestOptions = {
+                    challenge: Uint8Array.from(challenge, c => c.charCodeAt(0)),
+                    allowCredentials: [{
+                        type: 'public-key',
+                        id: Uint8Array.from(atob(credentialId), c => c.charCodeAt(0))
+                    }],
+                    timeout: 60000, // Optional timeout
+                    // Other optional parameters can be added as needed
+        };
 
 
-        async function LoginWithFingerprint() {
-
-                const assertion = await navigator.credentials.get({
-                    publicKey: publicKeyCredentialRequestOptions
-                });
-
+        async function LoginWithFinger()
+        {
+            const requestOptions = {
+                email: document.getElementById('email').value
+            }
+            // use the fetch function to send a post request to the server
+            fetch('/get-credential-id',requestOptions)
+            .then(response=>{
+                console.log(response)
+            })
         }
-
 
 
 
