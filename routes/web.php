@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware('auth');
 
-Route::get('/login',[Authenticator::class, 'LoginIndex']);
+Route::get('/login',[Authenticator::class, 'LoginIndex'])->name('login');
 Route::get('/register',[Authenticator::class, 'RegisterIndex']);
 
 Route::post('/get-credential-id', [Authenticator::class,'GetCredentialId']);

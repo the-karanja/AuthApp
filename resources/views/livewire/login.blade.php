@@ -44,21 +44,37 @@
                 return randomString;
             }
             let randomStringFromServer = generateRandomString(30);
+            function generateChallenge() {
+    // Length of the challenge in bytes (recommended to be at least 16 bytes)
+    const length = 32;
+
+    // Generate a cryptographically secure random array of bytes
+    const array = new Uint8Array(length);
+    window.crypto.getRandomValues(array);
+
+    // Convert the byte array to a base64url-encoded string
+    const challenge = btoa(String.fromCharCode.apply(null, array))
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=/g, '');
+
+    return challenge;
+}
+
+// Example usage:
+const challenge = generateChallenge();
+const credentialId = "AXpwfs9+qn9QMOUPGY91LjTHIzl2NpyTnaO/SJLLO3el3mFk4aZitQAZvd4LU+HrW2B/LX3viLaX3DI+Df1mWrQ=";
        // Define publicKeyCredentialRequestOptions
+        // Create PublicKeyCredentialRequestOptions
         const publicKeyCredentialRequestOptions = {
-            challenge: Uint8Array.from(
-                randomStringFromServer, c => c.charCodeAt(0)),
-                allowCredentials: [{
-                id: Uint8Array.from(
-                    "AaD2y4kcO+lkSGkmVUr/jf6pdqZ6yqip6qgIs8DERV8cNciP5VOmTSJm6NYomX2uiUMB+ykUtLDgVskMVEw63io=", c => c.charCodeAt(0)),
+            challenge: Uint8Array.from(challenge, c => c.charCodeAt(0)),
+            allowCredentials: [{
                 type: 'public-key',
-                transports: ['nfc','ble'],
+                id: Uint8Array.from(atob(credentialId), c => c.charCodeAt(0))
             }],
-            timeout: 600000,
-            authenticatorSelection: {
-                 authenticatorAttachment: 'cross-platform'
-            }
-        };
+            timeout: 60000, // Optional timeout
+            // Other optional parameters can be added as needed
+};
 
 
         async function LoginWithFingerprint() {
