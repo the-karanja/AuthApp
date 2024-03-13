@@ -19,47 +19,13 @@
 
         </form>
 
-        <button type="button" wire:click="get_credential" onclick="logs()" style="margin-top: 10px" class="btn btn-primary">Login with FingerPrint Prompt</button>
+        <button type="button" wire:click="get_credential" onclick="LoginWithFingerprint()" style="margin-top: 10px" class="btn btn-primary">Login with FingerPrint Prompt</button>
 
-            <input type="text" id="credential"  value={{ $credential_id }} wire:model="credential_id"/>
 
         <p><a href="/register">Create Account</a></p>
     </div>
     <script>
-        function logs ()
-        {
-            const email_data = document.getElementById('email').value
-            console.log(email_data)
-            //create a json to send as a request
-            const requestData = {
-                email: email_data
-            }
 
-
-
-            // Fetch request options
-            const requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: email_data })
-            };
-
-            // Make the fetch request
-            fetch('/get-credential-id', requestOptions)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    // Do something with the retrieved credential ID
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-
-        //    console.log(document.getElementById('credential').value)
-            // console.log(base64Credential_id)
-        }
         function generateRandomString(length) {
                 const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
                 let randomString = '';
@@ -78,41 +44,35 @@
                 return randomString;
             }
             let randomStringFromServer = generateRandomString(30);
-        // Define publicKeyCredentialRequestOptions
-        // const publicKeyCredentialRequestOptions = {
-        //     challenge: Uint8Array.from(
-        //         randomStringFromServer, c => c.charCodeAt(0)),
-        //     allowCredentials: [{
-        //         id: Uint8Array.from(
-        //             credentialId, c => c.charCodeAt(0)),
-        //         type: 'public-key',
-        //         transports: ['usb', 'ble', 'nfc'],
-        //     }],
-        //     timeout: 60000,
-        // };
+       // Define publicKeyCredentialRequestOptions
+        const publicKeyCredentialRequestOptions = {
+            challenge: Uint8Array.from(
+                randomStringFromServer, c => c.charCodeAt(0)),
+                allowCredentials: [{
+                id: Uint8Array.from(
+                    "AaD2y4kcO+lkSGkmVUr/jf6pdqZ6yqip6qgIs8DERV8cNciP5VOmTSJm6NYomX2uiUMB+ykUtLDgVskMVEw63io=", c => c.charCodeAt(0)),
+                type: 'public-key',
+                transports: ['nfc','ble'],
+            }],
+            timeout: 600000,
+            authenticatorSelection: {
+                 authenticatorAttachment: 'cross-platform'
+            }
+        };
 
-        // Define your LoginWithFingerPrint function
-        async function LoginWithFingerPrint() {
-            try {
-                // Attempt to get the assertion
+
+        async function LoginWithFingerprint() {
+
                 const assertion = await navigator.credentials.get({
                     publicKey: publicKeyCredentialRequestOptions
                 });
 
-                // Handle the assertion
-                handleAssertion(assertion);
-            } catch (error) {
-                console.error('Error during login:', error);
-            }
         }
 
-        // Define a function to handle the assertion
-        function handleAssertion(assertion) {
-            // Your logic to handle the assertion goes here
-            console.log('Assertion:', assertion);
-        }
+
 
 
     </script>
+
 
 </div>

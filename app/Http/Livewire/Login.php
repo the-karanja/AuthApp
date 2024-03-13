@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Login extends Component
@@ -16,23 +17,25 @@ class Login extends Component
     {
 
         // Retrieve the user by email
-        $user = User::where('email', $this->email)->first();
+        $user = DB::table('users')->where('email', $this->email)->get();
 
         // Check if user exists and if the provided password is correct
-        if ($user && Hash::check($this->password, $user->password)) {
-            // Authentication passed...
-            Auth::login($user); // Manually log in the user
-            return redirect()->to('/'); // Redirect to the intended page after successful authentication
-        }
+        // if ($user && Hash::check($this->password, $user->password)) {
+        //     // Authentication passed...
+        //     Auth::login($user); // Manually log in the user
+        //     return redirect()->to('/'); // Redirect to the intended page after successful authentication
+        // }
 
+        dd($user);
         // Authentication failed...
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
     public function get_credential() {
-        $user = User::where('email', $this->email)->first();
-        $this->credential_id = $user->credential_id;
+
+        // $this->credential_id = $user->credential_id;
+        // dd($this->credential_id);
     }
     public function render()
     {
