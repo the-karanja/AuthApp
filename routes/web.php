@@ -27,5 +27,5 @@ Route::get('/get-credential-id', [Authenticator::class,'GetCredentialId']);
 Route::get('/readme', function () {
     $readmePath = base_path('README.md');
     $content = File::exists($readmePath) ? File::get($readmePath) : 'README.md not found';
-    return view('readme', ['content' => $content]);
+    return view('welcome', ['content' => $content]);
 });
