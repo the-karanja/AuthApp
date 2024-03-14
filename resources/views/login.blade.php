@@ -17,6 +17,8 @@
     <script>
         const apple = "apple"
         console.log(apple)
+
+
     </script>
     @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoJtKh7z7lGz7fuP4F8nfdFvAOA6Gg/z6Y5J6XqqyGXYM2ntXf" crossorigin="anonymous"></script>

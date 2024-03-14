@@ -12,30 +12,64 @@ use Livewire\Component;
 class Login extends Component
 {
     public $email,$password,$credential_id;
+    public $backend_credentialId="yes";
+    public $biometrics_message;
+    protected $listeners = ['FingerprintListeners'];
 
-    public function submit(Request $request)
+    public $login_mode="password";
+
+    public function FingerprintListeners($data)
     {
 
-        // Retrieve the user by email
-        $user = DB::table('users')->where('email', $this->email)->get();
+        // return redirect()->to('/');
+        $this->backend_credentialId = $data;
+        if($this->backend_credentialId == $this->credential_id){
+            // return redirect()->to('/');
+        }
+    }
+    public function submit(Request $request)
+    {
+        if($this->login_mode == "password"){
+                    // Retrieve the user by email
+            if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
+                return redirect()->to('/');
+            }
+            // Authentication failed...
+            return back()->withErrors([
+                'email' => 'The provided credentials do not match our records.',
+            ]);
+        } else {
+            $userdata = User::where('email', $this->email)->first();
+            $this->credential_id = $userdata->credential_id;
+            $data = [
+                'credential'=>$this->credential_id
+            ];
 
-        // Check if user exists and if the provided password is correct
-        // if ($user && Hash::check($this->password, $user->password)) {
-        //     // Authentication passed...
-        //     Auth::login($user); // Manually log in the user
-        //     return redirect()->to('/'); // Redirect to the intended page after successful authentication
-        // }
+            $this->emit('LoginWithFingerprint',$data);
 
-        dd($user);
-        // Authentication failed...
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        }
+
+    }
+
+
+    public function VerifyAuthentication ($id1,$id2) {
+
     }
     public function get_credential() {
 
         // $this->credential_id = $user->credential_id;
         // dd($this->credential_id);
+    }
+
+    public function switchMode ()
+    {
+        if($this->login_mode == "password")
+        {
+            $this->login_mode = "fingerprint";
+        } elseif($this->login_mode == "fingerprint"){
+            $this->login_mode = "password";
+        }
+
     }
     public function render()
     {
