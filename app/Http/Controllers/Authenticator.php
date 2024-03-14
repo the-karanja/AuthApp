@@ -19,9 +19,10 @@ class Authenticator extends Controller
     }
 
     public function GetCredentialId (Request $request){
-        $email = $request->input('email');
-        $user = User::where('email', $email)->first();
-        $credentialId = $user->credential_id;
-        return response()->json(['credential_id' => $credentialId]);
+        // $requestData = $request->json()->all();
+        // $email = $requestData['$email'];
+       // $user = User::where('email', $email)->first();
+        // $credentialId = $user->credential_id;
+        return response()->json(['request',$request->body]);
     }
 }
