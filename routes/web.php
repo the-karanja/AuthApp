@@ -15,17 +15,17 @@ use Illuminate\Support\Facades\File;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->middleware('auth');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->middleware('auth');
 
 Route::get('/login',[Authenticator::class, 'LoginIndex'])->name('login');
 Route::get('/register',[Authenticator::class, 'RegisterIndex']);
 
 Route::get('/get-credential-id', [Authenticator::class,'GetCredentialId']);
 
-Route::get('/readme', function () {
+Route::get('/', function () {
     $readmePath = base_path('README.md');
     $content = File::exists($readmePath) ? File::get($readmePath) : 'README.md not found';
     return view('welcome', ['content' => $content]);
-});
+})->middleware('auth');

@@ -37,3 +37,7 @@ Brief description of the project.
 6. Set up your database credentials in the .env file and migrate the data
    ```bash
    php artisan migrate --seed
+
+7. Run the application
+   ```bash
+   php artisan run
