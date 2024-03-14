@@ -21,4 +21,4 @@ Route::get('/', function () {
 Route::get('/login',[Authenticator::class, 'LoginIndex'])->name('login');
 Route::get('/register',[Authenticator::class, 'RegisterIndex']);
 
-Route::post('/get-credential-id', [Authenticator::class,'GetCredentialId']);
+Route::get('/get-credential-id', [Authenticator::class,'GetCredentialId']);
