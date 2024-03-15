@@ -1,9 +1,9 @@
 <div>
     <div class="col-md-6 offset-md-3">
         <h2 class="text-center mb-4">Register Account</h2>
-        @if ($WebAuthnSuccessMessage)
+        @if (session('WebAuthnSuccess'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Hey !</strong> {{ $WebAuthnSuccessMessage }} <a href="/login">click here to login</a>
+                <strong>Hey !</strong> {{ session('WebAuthnSuccess') }} <a href="/login">click here to login</a>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -128,7 +128,7 @@
                 const base64String = btoa(String.fromCharCode.apply(null, uint8Array));
                 console.log(base64String);
                 Livewire.emit('FingerPrintData',base64String)
-                Livewire.emit('WebAuthnSuccess','Your Account Has been Successfully created')
+
             }
 
         }

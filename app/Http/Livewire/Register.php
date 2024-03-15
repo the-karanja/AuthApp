@@ -65,7 +65,7 @@ class Register extends Component
         $user->password = bcrypt($this->password);
         $user->credential_id = $this->fingerprint_data;
         $user->save();
-
+        session()->flash('WebAuthnSuccess','Your Account Has been Successfully created');
         // return
     }
 }
