@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Authenticator extends Controller
 {
@@ -18,11 +19,17 @@ class Authenticator extends Controller
         return view('register');
     }
 
-    public function GetCredentialId (Request $request){
+    public function Home (){
         // $requestData = $request->json()->all();
         // $email = $requestData['$email'];
        // $user = User::where('email', $email)->first();
         // $credentialId = $user->credential_id;
-        return response()->json(['request',$request->body]);
+        return view('welcome');
+    }
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect('/login'); // Redirect to the desired page after logout
     }
 }
+

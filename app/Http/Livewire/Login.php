@@ -14,13 +14,21 @@ class Login extends Component
     public $email,$password,$credential_id;
     public $backend_credentialId="yes";
     public $biometrics_message;
-    protected $listeners = ['FingerprintListeners'];
+
+    public $verification = false;
+
+    protected $listeners = ['FingerprintListeners','Verifying'];
 
     public $login_mode="password";
     protected $rules = [
         'email' => 'required|email|exist:users',
         'password' => 'required',
     ];
+
+    public function Verifying($data)
+    {
+        $this->verification = true;
+    }
 
     public function FingerprintListeners($data)
     {
