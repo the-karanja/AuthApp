@@ -22,10 +22,7 @@ use Illuminate\Support\Facades\File;
 Route::get('/login',[Authenticator::class, 'LoginIndex'])->name('login');
 Route::get('/register',[Authenticator::class, 'RegisterIndex']);
 
-Route::get('/get-credential-id', [Authenticator::class,'GetCredentialId']);
+Route::get('/', [Authenticator::class,'Home']);
+Route::post('/logout', [Authenticator::class, 'logout'])->name('logout');
 
-Route::get('/', function () {
-    $readmePath = base_path('README.md');
-    $content = File::exists($readmePath) ? File::get($readmePath) : 'README.md not found';
-    return view('welcome', ['content' => $content]);
-})->middleware('auth');
+
