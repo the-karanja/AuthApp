@@ -1,132 +1,143 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebAuthn Laravel Project Documentation</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        /* Custom styles */
+        body {
+            padding-top: 3rem;
+        }
+        .bs-sidebar {
+            position: fixed;
+            top: 3rem;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            border-right: 1px solid #e9ecef;
+        }
+        .bs-sidebar a {
+            display: block;
+            padding: .25rem 1.5rem;
+            color: #495057;
+            text-decoration: none;
+        }
+        .bs-sidebar a:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
 
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
-        <!-- Styles -->
-        <style>
-            /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}a{background-color:transparent}[hidden]{display:none}html{font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;line-height:1.5}*,:after,:before{box-sizing:border-box;border:0 solid #e2e8f0}a{color:inherit;text-decoration:inherit}svg,video{display:block;vertical-align:middle}video{max-width:100%;height:auto}.bg-white{--bg-opacity:1;background-color:#fff;background-color:rgba(255,255,255,var(--bg-opacity))}.bg-gray-100{--bg-opacity:1;background-color:#f7fafc;background-color:rgba(247,250,252,var(--bg-opacity))}.border-gray-200{--border-opacity:1;border-color:#edf2f7;border-color:rgba(237,242,247,var(--border-opacity))}.border-t{border-top-width:1px}.flex{display:flex}.grid{display:grid}.hidden{display:none}.items-center{align-items:center}.justify-center{justify-content:center}.font-semibold{font-weight:600}.h-5{height:1.25rem}.h-8{height:2rem}.h-16{height:4rem}.text-sm{font-size:.875rem}.text-lg{font-size:1.125rem}.leading-7{line-height:1.75rem}.mx-auto{margin-left:auto;margin-right:auto}.ml-1{margin-left:.25rem}.mt-2{margin-top:.5rem}.mr-2{margin-right:.5rem}.ml-2{margin-left:.5rem}.mt-4{margin-top:1rem}.ml-4{margin-left:1rem}.mt-8{margin-top:2rem}.ml-12{margin-left:3rem}.-mt-px{margin-top:-1px}.max-w-6xl{max-width:72rem}.min-h-screen{min-height:100vh}.overflow-hidden{overflow:hidden}.p-6{padding:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.pt-8{padding-top:2rem}.fixed{position:fixed}.relative{position:relative}.top-0{top:0}.right-0{right:0}.shadow{box-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)}.text-center{text-align:center}.text-gray-200{--text-opacity:1;color:#edf2f7;color:rgba(237,242,247,var(--text-opacity))}.text-gray-300{--text-opacity:1;color:#e2e8f0;color:rgba(226,232,240,var(--text-opacity))}.text-gray-400{--text-opacity:1;color:#cbd5e0;color:rgba(203,213,224,var(--text-opacity))}.text-gray-500{--text-opacity:1;color:#a0aec0;color:rgba(160,174,192,var(--text-opacity))}.text-gray-600{--text-opacity:1;color:#718096;color:rgba(113,128,150,var(--text-opacity))}.text-gray-700{--text-opacity:1;color:#4a5568;color:rgba(74,85,104,var(--text-opacity))}.text-gray-900{--text-opacity:1;color:#1a202c;color:rgba(26,32,44,var(--text-opacity))}.underline{text-decoration:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.w-5{width:1.25rem}.w-8{width:2rem}.w-auto{width:auto}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}@media (min-width:640px){.sm\:rounded-lg{border-radius:.5rem}.sm\:block{display:block}.sm\:items-center{align-items:center}.sm\:justify-start{justify-content:flex-start}.sm\:justify-between{justify-content:space-between}.sm\:h-20{height:5rem}.sm\:ml-0{margin-left:0}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:pt-0{padding-top:0}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width:768px){.md\:border-t-0{border-top-width:0}.md\:border-l{border-left-width:1px}.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (min-width:1024px){.lg\:px-8{padding-left:2rem;padding-right:2rem}}@media (prefers-color-scheme:dark){.dark\:bg-gray-800{--bg-opacity:1;background-color:#2d3748;background-color:rgba(45,55,72,var(--bg-opacity))}.dark\:bg-gray-900{--bg-opacity:1;background-color:#1a202c;background-color:rgba(26,32,44,var(--bg-opacity))}.dark\:border-gray-700{--border-opacity:1;border-color:#4a5568;border-color:rgba(74,85,104,var(--border-opacity))}.dark\:text-white{--text-opacity:1;color:#fff;color:rgba(255,255,255,var(--text-opacity))}.dark\:text-gray-400{--text-opacity:1;color:#cbd5e0;color:rgba(203,213,224,var(--text-opacity))}.dark\:text-gray-500{--tw-text-opacity:1;color:#6b7280;color:rgba(107,114,128,var(--tw-text-opacity))}}
-        </style>
-
-        <style>
-            body {
-                font-family: 'Nunito', sans-serif;
-            }
-        </style>
-    </head>
-    <body class="antialiased">
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-            @if (Route::has('login'))
-                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                    @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
-                    <svg viewBox="0 0 651 192" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto text-gray-700 sm:h-20">
-                        <g clip-path="url(#clip0)" fill="#EF3B2D">
-                            <path d="M248.032 44.676h-16.466v100.23h47.394v-14.748h-30.928V44.676zM337.091 87.202c-2.101-3.341-5.083-5.965-8.949-7.875-3.865-1.909-7.756-2.864-11.669-2.864-5.062 0-9.69.931-13.89 2.792-4.201 1.861-7.804 4.417-10.811 7.661-3.007 3.246-5.347 6.993-7.016 11.239-1.672 4.249-2.506 8.713-2.506 13.389 0 4.774.834 9.26 2.506 13.459 1.669 4.202 4.009 7.925 7.016 11.169 3.007 3.246 6.609 5.799 10.811 7.66 4.199 1.861 8.828 2.792 13.89 2.792 3.913 0 7.804-.955 11.669-2.863 3.866-1.908 6.849-4.533 8.949-7.875v9.021h15.607V78.182h-15.607v9.02zm-1.431 32.503c-.955 2.578-2.291 4.821-4.009 6.73-1.719 1.91-3.795 3.437-6.229 4.582-2.435 1.146-5.133 1.718-8.091 1.718-2.96 0-5.633-.572-8.019-1.718-2.387-1.146-4.438-2.672-6.156-4.582-1.719-1.909-3.032-4.152-3.938-6.73-.909-2.577-1.36-5.298-1.36-8.161 0-2.864.451-5.585 1.36-8.162.905-2.577 2.219-4.819 3.938-6.729 1.718-1.908 3.77-3.437 6.156-4.582 2.386-1.146 5.059-1.718 8.019-1.718 2.958 0 5.656.572 8.091 1.718 2.434 1.146 4.51 2.674 6.229 4.582 1.718 1.91 3.054 4.152 4.009 6.729.953 2.577 1.432 5.298 1.432 8.162-.001 2.863-.479 5.584-1.432 8.161zM463.954 87.202c-2.101-3.341-5.083-5.965-8.949-7.875-3.865-1.909-7.756-2.864-11.669-2.864-5.062 0-9.69.931-13.89 2.792-4.201 1.861-7.804 4.417-10.811 7.661-3.007 3.246-5.347 6.993-7.016 11.239-1.672 4.249-2.506 8.713-2.506 13.389 0 4.774.834 9.26 2.506 13.459 1.669 4.202 4.009 7.925 7.016 11.169 3.007 3.246 6.609 5.799 10.811 7.66 4.199 1.861 8.828 2.792 13.89 2.792 3.913 0 7.804-.955 11.669-2.863 3.866-1.908 6.849-4.533 8.949-7.875v9.021h15.607V78.182h-15.607v9.02zm-1.432 32.503c-.955 2.578-2.291 4.821-4.009 6.73-1.719 1.91-3.795 3.437-6.229 4.582-2.435 1.146-5.133 1.718-8.091 1.718-2.96 0-5.633-.572-8.019-1.718-2.387-1.146-4.438-2.672-6.156-4.582-1.719-1.909-3.032-4.152-3.938-6.73-.909-2.577-1.36-5.298-1.36-8.161 0-2.864.451-5.585 1.36-8.162.905-2.577 2.219-4.819 3.938-6.729 1.718-1.908 3.77-3.437 6.156-4.582 2.386-1.146 5.059-1.718 8.019-1.718 2.958 0 5.656.572 8.091 1.718 2.434 1.146 4.51 2.674 6.229 4.582 1.718 1.91 3.054 4.152 4.009 6.729.953 2.577 1.432 5.298 1.432 8.162 0 2.863-.479 5.584-1.432 8.161zM650.772 44.676h-15.606v100.23h15.606V44.676zM365.013 144.906h15.607V93.538h26.776V78.182h-42.383v66.724zM542.133 78.182l-19.616 51.096-19.616-51.096h-15.808l25.617 66.724h19.614l25.617-66.724h-15.808zM591.98 76.466c-19.112 0-34.239 15.706-34.239 35.079 0 21.416 14.641 35.079 36.239 35.079 12.088 0 19.806-4.622 29.234-14.688l-10.544-8.158c-.006.008-7.958 10.449-19.832 10.449-13.802 0-19.612-11.127-19.612-16.884h51.777c2.72-22.043-11.772-40.877-33.023-40.877zm-18.713 29.28c.12-1.284 1.917-16.884 18.589-16.884 16.671 0 18.697 15.598 18.813 16.884h-37.402zM184.068 43.892c-.024-.088-.073-.165-.104-.25-.058-.157-.108-.316-.191-.46-.056-.097-.137-.176-.203-.265-.087-.117-.161-.242-.265-.345-.085-.086-.194-.148-.29-.223-.109-.085-.206-.182-.327-.252l-.002-.001-.002-.002-35.648-20.524a2.971 2.971 0 00-2.964 0l-35.647 20.522-.002.002-.002.001c-.121.07-.219.167-.327.252-.096.075-.205.138-.29.223-.103.103-.178.228-.265.345-.066.089-.147.169-.203.265-.083.144-.133.304-.191.46-.031.085-.08.162-.104.25-.067.249-.103.51-.103.776v38.979l-29.706 17.103V24.493a3 3 0 00-.103-.776c-.024-.088-.073-.165-.104-.25-.058-.157-.108-.316-.191-.46-.056-.097-.137-.176-.203-.265-.087-.117-.161-.242-.265-.345-.085-.086-.194-.148-.29-.223-.109-.085-.206-.182-.327-.252l-.002-.001-.002-.002L40.098 1.396a2.971 2.971 0 00-2.964 0L1.487 21.919l-.002.002-.002.001c-.121.07-.219.167-.327.252-.096.075-.205.138-.29.223-.103.103-.178.228-.265.345-.066.089-.147.169-.203.265-.083.144-.133.304-.191.46-.031.085-.08.162-.104.25-.067.249-.103.51-.103.776v122.09c0 1.063.568 2.044 1.489 2.575l71.293 41.045c.156.089.324.143.49.202.078.028.15.074.23.095a2.98 2.98 0 001.524 0c.069-.018.132-.059.2-.083.176-.061.354-.119.519-.214l71.293-41.045a2.971 2.971 0 001.489-2.575v-38.979l34.158-19.666a2.971 2.971 0 001.489-2.575V44.666a3.075 3.075 0 00-.106-.774zM74.255 143.167l-29.648-16.779 31.136-17.926.001-.001 34.164-19.669 29.674 17.084-21.772 12.428-43.555 24.863zm68.329-76.259v33.841l-12.475-7.182-17.231-9.92V49.806l12.475 7.182 17.231 9.92zm2.97-39.335l29.693 17.095-29.693 17.095-29.693-17.095 29.693-17.095zM54.06 114.089l-12.475 7.182V46.733l17.231-9.92 12.475-7.182v74.537l-17.231 9.921zM38.614 7.398l29.693 17.095-29.693 17.095L8.921 24.493 38.614 7.398zM5.938 29.632l12.475 7.182 17.231 9.92v79.676l.001.005-.001.006c0 .114.032.221.045.333.017.146.021.294.059.434l.002.007c.032.117.094.222.14.334.051.124.088.255.156.371a.036.036 0 00.004.009c.061.105.149.191.222.288.081.105.149.22.244.314l.008.01c.084.083.19.142.284.215.106.083.202.178.32.247l.013.005.011.008 34.139 19.321v34.175L5.939 144.867V29.632h-.001zm136.646 115.235l-65.352 37.625V148.31l48.399-27.628 16.953-9.677v33.862zm35.646-61.22l-29.706 17.102V66.908l17.231-9.92 12.475-7.182v33.841z"/>
-                        </g>
-                    </svg>
-                </div>
-
-                <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
-                    <div class="grid grid-cols-1 md:grid-cols-2">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laravel.com/docs" class="underline text-gray-900 dark:text-white">Documentation</a></div>
-                            </div>
-
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laravel has wonderful, thorough documentation covering every aspect of the framework. Whether you are new to the framework or have previous experience with Laravel, we recommend reading all of the documentation from beginning to end.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-                            <div class="flex items-center">
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laracasts.com" class="underline text-gray-900 dark:text-white">Laracasts</a></div>
-                            </div>
-
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="p-6 border-t border-gray-200 dark:border-gray-700">
-                            <div class="flex items-center">
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laravel-news.com/" class="underline text-gray-900 dark:text-white">Laravel News</a></div>
-                            </div>
-
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-l">
-                            <div class="flex items-center">
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold text-gray-900 dark:text-white">Vibrant Ecosystem</div>
-                            </div>
-
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="underline">Forge</a>, <a href="https://vapor.laravel.com" class="underline">Vapor</a>, <a href="https://nova.laravel.com" class="underline">Nova</a>, and <a href="https://envoyer.io" class="underline">Envoyer</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="underline">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="underline">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="underline">Echo</a>, <a href="https://laravel.com/docs/horizon" class="underline">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="underline">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="underline">Telescope</a>, and more.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
-                    <div class="text-center text-sm text-gray-500 sm:text-left">
-                        <div class="flex items-center">
-                            <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="-mt-px w-5 h-5 text-gray-400">
-                                <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                            </svg>
-
-                            <a href="https://laravel.bigcartel.com" class="ml-1 underline">
-                                Shop
-                            </a>
-
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="ml-4 -mt-px w-5 h-5 text-gray-400">
-                                <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                            </svg>
-
-                            <a href="https://github.com/sponsors/taylorotwell" class="ml-1 underline">
-                                Sponsor
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-                    </div>
-                </div>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">WebAuthn Laravel Project documentation</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#introduction">Introduction</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#registration">Registration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#authentication">Authentication</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#api-reference">API Reference</a>
+                </li>
+            </ul>
         </div>
-    </body>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light bs-sidebar">
+            <div class="position-sticky">
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>Contents</span>
+                </h6>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#introduction">Introduction</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#registration">Registration</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#authentication">Authentication</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#api-reference">API Reference</a>
+                    </li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                        <button class=" btn btn-outline-danger" style="margin-left: 20px;margin-top:10px">Log Out</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-4">
+            <section id="introduction">
+                <img  mb="6"  style="margin-left: 300px;margin-right:auto;"  src="data:image/png;base64,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">
+                <h2>Introduction</h2>
+
+                <p>Web Authentication (WebAuthn) is a modern web standard designed to enhance security and usability by enabling passwordless authentication. It is a part of the FIDO (Fast Identity Online) Alliance's efforts to develop open authentication standards that reduce reliance on passwords and improve user authentication experiences.
+
+
+                    The primary goal of WebAuthn is to provide a robust and user-friendly authentication mechanism that eliminates the need for passwords. By leveraging public key cryptography, WebAuthn allows users to authenticate to websites and applications using biometrics, USB tokens, or other external authenticators.</p>
+            </section>
+
+            <section id="registration">
+                <h2>Registration</h2>
+
+                <p> During registration, the user's device generates a new public-private key pair and registers the public key with the server. The private key is securely stored on the device and is used to sign authentication requests.</p>
+            </section>
+
+            <section id="authentication">
+                <h2>Authentication</h2>
+                <p>When the user attempts to authenticate, the server sends a challenge to the device. The device then signs the challenge with the private key and sends the signed response back to the server. The server verifies the response using the previously registered public key to authenticate the user.</p>
+            </section>
+
+            <section id="api-reference">
+                <h2>API Reference</h2>
+                <p>The WebAuthn API provides a set of JavaScript methods for interacting with authenticators and performing registration and authentication operations. This section outlines the key methods and objects available in the WebAuthn API.
+
+            <br>                    <b>navigator.credentials.create()</b><br>
+                    The  <b> navigator.credentials.create()</b> method is used to initiate the registration process for a new credential.</p><b>Parameters:</b>
+                    options: An object containing options for the registration process. This includes parameters such as publicKey, which specifies the parameters for creating a new public key credential.
+                    <br><b>
+                    Returns:</b>
+                    A Promise that resolves with a Credential object representing the newly created credential.<br><br>
+                   <b> navigator.credentials.get()</b><br>
+                    The <b>navigator.credentials.get()</b> method is used to initiate the authentication process for an existing credential <br>
+                   <b> options:</b> An object containing options for the authentication process. This includes parameters such as <b>publicKey</b>, which specifies the parameters for authenticating with an existing public key credential.
+Returns:
+A Promise that resolves with a Credential object representing the authenticated credential.
+            </section>
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
 </html>
