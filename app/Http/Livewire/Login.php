@@ -17,6 +17,10 @@ class Login extends Component
     protected $listeners = ['FingerprintListeners'];
 
     public $login_mode="password";
+    protected $rules = [
+        'email' => 'required|email|exist:users',
+        'password' => 'required',
+    ];
 
     public function FingerprintListeners($data)
     {
@@ -35,9 +39,8 @@ class Login extends Component
                 return redirect()->to('/');
             }
             // Authentication failed...
-            return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.',
-            ]);
+            session()->flash('LoginError','The credentials you provided do not match');
+            return back();
         } else {
             $userdata = User::where('email', $this->email)->first();
             $this->credential_id = $userdata->credential_id;
